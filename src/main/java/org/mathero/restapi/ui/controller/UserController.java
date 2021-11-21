@@ -32,6 +32,10 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<UserRest> getUser(@PathVariable String userId) {
 
+//        CREATED TO PROVOKE AN EXCEPTION
+        String firstName = null;
+        int firstNameLenght = firstName.length();
+
         if (users.containsKey(userId)) {
             return new ResponseEntity<>(users.get(userId), HttpStatus.OK);
         } else {
