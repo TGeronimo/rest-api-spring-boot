@@ -1,5 +1,6 @@
 package org.mathero.restapi.ui.controller;
 
+import org.mathero.restapi.ui.model.request.UpdateUserDetailRequestModel;
 import org.mathero.restapi.ui.model.request.UserDetailRequestModel;
 import org.mathero.restapi.ui.model.response.UserRest;
 import org.springframework.http.HttpStatus;
@@ -27,8 +28,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/{userId}",
-            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
-    )
+            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<UserRest> getUser(@PathVariable String userId) {
 
@@ -40,8 +40,7 @@ public class UserController {
     }
 
     @PostMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
-            consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
-    )
+            consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<UserRest> createUser(@Validated @RequestBody UserDetailRequestModel userDetails) {
 
         UserRest returnValue = new UserRest();
@@ -60,10 +59,23 @@ public class UserController {
 
     @PutMapping(path = "/{userId}",
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
-            consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
-    )
-    public String updateUser() {
-        return "";
+            consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public UserRest updateUser(@PathVariable String userId, @Validated @RequestBody UpdateUserDetailRequestModel userDetails) {
+
+        UserRest storedUserDetails = users.get(userId);
+        storedUserDetails.setName(userDetails.getFirstName());
+        storedUserDetails.setSurname(userDetails.getLastName());
+
+        users.put(userId, storedUserDetails);
+
+        return storedUserDetails;
+    }
+
+    @DeleteMapping(path = "/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
+        users.remove(userId);
+
+        return ResponseEntity.noContent().build();
     }
 
 }
