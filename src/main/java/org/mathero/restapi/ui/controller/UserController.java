@@ -1,4 +1,4 @@
-package org.mathero.restapi;
+package org.mathero.restapi.ui.controller;
 
 import org.mathero.restapi.ui.model.request.UserDetailRequestModel;
 import org.mathero.restapi.ui.model.response.UserRest;
