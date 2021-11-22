@@ -1,5 +1,6 @@
 package org.mathero.restapi.ui.controller;
 
+import org.mathero.restapi.ui.exceptions.UserServiceException;
 import org.mathero.restapi.ui.model.request.UpdateUserDetailRequestModel;
 import org.mathero.restapi.ui.model.request.UserDetailRequestModel;
 import org.mathero.restapi.ui.model.response.UserRest;
@@ -32,9 +33,12 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<UserRest> getUser(@PathVariable String userId) {
 
-//        CREATED TO PROVOKE AN EXCEPTION
-        String firstName = null;
-        int firstNameLenght = firstName.length();
+//        THROWS THE CUSTOM EXCEPTION TO TEST IT
+        if (true) throw new UserServiceException("A user service exception is throw");
+
+////        CREATED TO PROVOKE AN EXCEPTION
+//        String firstName = null;
+//        int firstNameLenght = firstName.length();
 
         if (users.containsKey(userId)) {
             return new ResponseEntity<>(users.get(userId), HttpStatus.OK);
